@@ -1,0 +1,43 @@
+# -*- mode: ruby -*-
+# vi: set ft=ruby :
+
+class KernelUpdateInstaller < VagrantVbguest::Installers::RedHat
+  def install(opts=nil, &block)
+    communicate.sudo('yum -y update kernel', opts, &block)
+    super
+  end
+end
+
+Vagrant.configure("2") do |config|
+
+  config.vm.box = "centos/7"
+  # Custom installer to ensure proper installation of kernel headers for VBOX Guest Additions
+  config.vbguest.installer = KernelUpdateInstaller
+
+  # Create a forwarded port mapping which allows access to a specific port
+  # within the machine from a port on the host machine and only allow access
+  # via 127.0.0.1 to disable public access
+  config.vm.network "forwarded_port", guest: 8000, host: 8000
+  config.vm.network "forwarded_port", guest: 9000, host: 9000
+
+  # Share an additional folder to the guest VM. The first argument is
+  # the path on the host to the actual folder. The second argument is
+  # the path on the guest to mount the folder. And the optional third
+  # argument is a set of non-required options.
+  config.vm.synced_folder "./../docker", "/opt/docker"
+  config.vm.synced_folder "./../backend", "/opt/backend"
+  config.vm.synced_folder "./../frontend", "/opt/frontend"
+
+  # Provider-specific configuration tofine-tune various backing providers for Vagrant.
+  # These expose provider-specific options.
+  config.vm.provider "virtualbox" do |vb|
+    vb.memory = "1024"
+  end
+
+  # Enable provisioning with shell scripts
+  config.vm.provision :shell, path: "./provision/docker-install.sh"
+  config.vm.provision :shell, path: "./provision/docker-start.sh", run: "always"
+  config.vm.provision :shell, path: "./provision/docker-build-images.sh", run: "always"
+  config.vm.provision :shell, path: "./provision/docker-compose-install.sh"
+  config.vm.provision :shell, path: "./provision/docker-compose-up.sh", run: "always"
+end
