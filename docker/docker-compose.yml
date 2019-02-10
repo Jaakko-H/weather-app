@@ -8,6 +8,8 @@ services:
     restart: always
     ports:
       - 9000:9000
+    volumes:
+      - "/opt/backend:/opt/backend:rw"
   weatherapp_frontend:
     image: weatherapp_frontend
     restart: "always"
@@ -15,3 +17,5 @@ services:
       - 8000:8000
     environment:
       - ENDPOINT=http://localhost:9000/api
+    volumes:
+      - "/opt/frontend:/opt/frontend:rw"
