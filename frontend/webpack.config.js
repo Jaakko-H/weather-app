@@ -13,6 +13,8 @@ module.exports = {
     historyApiFallback: true,
     port: 8000,
     host: '0.0.0.0',
+    hot: true,
+    watchContentBase: true
   },
   devtool: 'eval',
   output: {
@@ -44,4 +46,8 @@ module.exports = {
       },
     }),
   ],
+  watchOptions: {
+    aggregateTimeout: 1000,
+    poll: 1000
+  }
 };
