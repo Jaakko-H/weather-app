@@ -1,17 +1,23 @@
 import * as statics from '../utils/statics';
 
-export const getForecastFromApi = async () => {
+function getLocationQueryParams(latitude, longitude) {
+  return latitude && longitude ? `?latitude=${latitude}&longitude=${longitude}` : '';
+}
+
+export const getForecastFromApi = async (latitude, longitude) => {
+  const locationQueryParams = getLocationQueryParams(latitude, longitude);
   try {
-    const response = await fetch(`${statics.BASE_URL}/forecast`);
+    const response = await fetch(`${statics.BASE_URL}/forecast${locationQueryParams}`);
     return response.json();
   } catch (error) {
     return {};
   }
 };
 
-export const getWeatherFromApi = async () => {
+export const getWeatherFromApi = async (latitude, longitude) => {
+  const locationQueryParams = getLocationQueryParams(latitude, longitude);
   try {
-    const response = await fetch(`${statics.BASE_URL}/weather`);
+    const response = await fetch(`${statics.BASE_URL}/weather${locationQueryParams}`);
     return response.json();
   } catch (error) {
     return {};

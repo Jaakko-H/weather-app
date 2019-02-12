@@ -13,29 +13,45 @@ const app = new Koa();
 
 app.use(cors());
 
-const fetchForecast = async () => {
-  const endpoint = `${mapURI}/forecast?q=${targetCity}&appid=${appId}`;
+const fetchForecast = async (latitude, longitude) => {
+  const locationQueryParams = getLocationQueryParams(latitude, longitude);
+  const endpoint = `${mapURI}/forecast?appid=${appId}${locationQueryParams}`;
+  console.debug('endpoint:', endpoint);
   const response = await fetch(endpoint);
 
   return response ? response.json() : {};
 };
 
-const fetchWeather = async () => {
-  const endpoint = `${mapURI}/weather?q=${targetCity}&appid=${appId}&`;
+const fetchWeather = async (latitude, longitude) => {
+  const locationQueryParams = getLocationQueryParams(latitude, longitude);
+  const endpoint = `${mapURI}/weather?appid=${appId}${locationQueryParams}`;
+  console.debug('endpoint:', endpoint);
   const response = await fetch(endpoint);
 
   return response ? response.json() : {};
+};
+
+const getLocationQueryParams = (latitude, longitude) => {
+  return latitude && longitude ? `&lat=${latitude}&lon=${longitude}` : `&q=${targetCity}`;
+};
+
+const attachCityNameIntoForecastEntity = (forecastEntity, cityName) => {
+  forecastEntity.name = cityName;
+  return forecastEntity;
 };
 
 router.get('/api/forecast', async ctx => {
-  const forecastData = await fetchForecast();
+  const queryParams = ctx.request.query;
+  const forecastData = await fetchForecast(queryParams.latitude, queryParams.longitude);
+  const responseBody = forecastData.list ? attachCityNameIntoForecastEntity(forecastData.list[0], forecastData.city.name) : {};
 
   ctx.type = 'application/json; charset=utf-8';
-  ctx.body = forecastData.list ? forecastData.list[0] : {};
+  ctx.body = responseBody;
 });
 
 router.get('/api/weather', async ctx => {
-  const weatherData = await fetchWeather();
+  const queryParams = ctx.request.query;
+  const weatherData = await fetchWeather(queryParams.latitude, queryParams.longitude);
 
   ctx.type = 'application/json; charset=utf-8';
   ctx.body = weatherData;

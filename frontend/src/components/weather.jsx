@@ -8,33 +8,37 @@ export default class Weather extends React.Component {
 
   constructor(props) {
     super(props);
+    this.latitude = props.latitude;
+    this.longitude = props.longitude;
     this.type = props.type;
 
     this.state = {
       icon: '',
       timestamp: '',
+      locationName: '',
     };
   }
 
   async componentWillMount() {
     let weatherData;
     if (this.type === statics.WEATHER_TYPE_FORECAST) {
-      weatherData = await weatherApi.getForecastFromApi();
+      weatherData = await weatherApi.getForecastFromApi(this.latitude, this.longitude);
     } else {
-      weatherData = await weatherApi.getWeatherFromApi();
+      weatherData = await weatherApi.getWeatherFromApi(this.latitude, this.longitude);
     }
     this.setState({
       icon: weatherData.weather ? weatherData.weather[0].icon.slice(0, -1) : '',
       datetime: weatherData.dt
         ? new Date(weatherData.dt * statics.MILLISECOND_MULTIPLIER).toLocaleString()
         : '',
+      locationName: weatherData.name,
     });
   }
 
   render() {
-    const { icon, datetime } = this.state;
+    const { icon, datetime, locationName } = this.state;
     const weatherLabel = datetime
-      ? `Weather on ${datetime}`
+      ? `Weather on ${datetime} in ${locationName}`
       : statics.WEATHER_UNAVAILABLE;
 
     return (
@@ -58,4 +62,6 @@ export default class Weather extends React.Component {
 
 Weather.propTypes = {
   type: PropTypes.string.isRequired,
+  latitude: PropTypes.number,
+  longitude: PropTypes.number,
 };
