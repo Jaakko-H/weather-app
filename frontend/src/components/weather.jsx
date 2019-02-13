@@ -60,6 +60,11 @@ export default class Weather extends React.Component {
   }
 }
 
+Weather.defaultProps = {
+  latitude: undefined,
+  longitude: undefined,
+};
+
 Weather.propTypes = {
   type: PropTypes.string.isRequired,
   latitude: PropTypes.number,
