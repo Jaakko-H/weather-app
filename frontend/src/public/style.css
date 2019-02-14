@@ -8,7 +8,16 @@ body{
   align-items: center;
 }
 
+td {
+  padding: 20px;
+}
+
 .icon {
-  width: 30vw;
-  height: 30vw;
+  width: 25vw;
+  height: 25vw;
+}
+
+.weatherLabel {
+  font-weight: bold;
+  text-align: center;
 }

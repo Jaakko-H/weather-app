@@ -1,0 +1,24 @@
+version: '3'
+
+services:
+  weatherapp_backend:
+    env_file: api_keys.env
+    container_name: "weatherapp_backend"
+    # Legacy-watch required due to nodemon reading on mounted drives
+    command: ./node_modules/.bin/nodemon --legacy-watch src/index.js
+    image: weatherapp_backend
+    restart: always
+    ports:
+      - 9000:9000
+    volumes:
+      - "./../backend:/opt/backend:rw"
+  weatherapp_frontend:
+    image: weatherapp_frontend
+    container_name: "weatherapp_frontend"
+    restart: always
+    ports:
+      - 8000:8000
+    environment:
+      - ENDPOINT=http://localhost:9000/api
+    volumes:
+      - "./../frontend:/opt/frontend:rw"

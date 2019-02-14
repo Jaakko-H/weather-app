@@ -4,7 +4,10 @@ const TransferWebpackPlugin = require('transfer-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 module.exports = {
-  entry: './src/index.jsx',
+  entry: [
+    'babel-polyfill',
+    './src/index.jsx',
+  ],
   resolve: {
     extensions: ['.js', '.jsx'],
   },
@@ -13,6 +16,8 @@ module.exports = {
     historyApiFallback: true,
     port: 8000,
     host: '0.0.0.0',
+    hot: true,
+    watchContentBase: true,
   },
   devtool: 'eval',
   output: {
@@ -26,7 +31,7 @@ module.exports = {
         exclude: /node_modules/,
         use: [{
           loader: 'babel-loader',
-          options: { presets: ['react', 'es2016'] },
+          options: { presets: ['react', 'es2015'] },
         }],
       },
     ],
@@ -44,4 +49,8 @@ module.exports = {
       },
     }),
   ],
+  watchOptions: {
+    aggregateTimeout: 1000,
+    poll: 1000,
+  },
 };
