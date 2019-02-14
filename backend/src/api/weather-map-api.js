@@ -21,6 +21,6 @@ export const fetchWeather = async (latitude, longitude) => {
   return response ? response.json() : {};
 };
 
-export const getLocationQueryParams = (latitude, longitude) => {
+export function getLocationQueryParams(latitude, longitude) {
   return latitude && longitude ? `&lat=${latitude}&lon=${longitude}` : `&q=${targetCity}`;
 };
