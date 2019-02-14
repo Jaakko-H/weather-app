@@ -1,56 +1,55 @@
 # Weatherapp
 
-There was a beautiful idea of building an app that would show the upcoming weather. The developers wrote a nice backend and a frontend following the latest principles and - to be honest - bells and whistles. However, the developers did not remember to add any information about the infrastructure or even setup instructions in the source code.
+This is a simple web application which reports the current weather and forecasts the upcoming weather in the user's location (or Helsinki if the user does not allow the use of location data) within a few hours from the current time, based on the [OpenWeatherMap](https://openweathermap.org/).
 
-Luckily we now have [docker compose](https://docs.docker.com/compose/) saving us from installing the tools on our computer, and making sure the app looks (and is) the same in development and in production. All we need is someone to add the few missing files!
+This was an exercise to practise the use of ReactJS, NodeJS, Docker & Docker-compose and Vagrant and some other technologies. It uses ReactJS on the front end and NodeJS on the back end. The app can be run with either Docker & Docker-compose on your own machine or with Vagrant which builds a virtual machine and installs everything for you automatically.
 
 ## Prerequisites
 
-* An [openweathermap](http://openweathermap.org/) API key.
-* [Docker](https://www.docker.com/) and [docker compose](https://docs.docker.com/compose/) installed.
+* An [OpenWeatherMap](http://openweathermap.org/) API key.
+* [Docker](https://www.docker.com/) and [docker compose](https://docs.docker.com/compose/) installed
+ OR [Vagrant](https://www.vagrantup.com/) and [VirtualBox](https://www.virtualbox.org/) or alternative provider.
 
-## Returning your solution
+## Getting Started
 
-### Via github
+Create a file named `api_keys.env` in the `docker/` directory at the project root and place your OpenWeatherMap API key there. The file content should be as follows: `APPID=<Place your API key here>`.
 
-* Make a copy of this repository in your own github account (do not fork unless you really want to be public).
-* Create a personal repository in github.
-* Make changes, commit them, and push them in your own repository.
-* Send us the url where to find the code.
+## Running The Application
 
-### Via tar-package
+### With Vagrant
 
-* Clone this repository.
-* Make changes and **commit them**.
-* Create a **.tgz** -package including the **.git**-directory, but excluding the **node_modules**-directories.
-* Send us the archive.
+1. Open a new command line terminal and cd to the `vagrant/` directory of the project root, where the file called `Vagrantfile` is located.
 
-## Exercises
+2. Execute the command `vagrant up`. This will create + start a new virtual machine for you, an isolated and identical development environment for any developer in which to run applications with ease. It will install all the prerequisite technologies like Docker & docker-compose, build Docker images from both back end- and front end-applications and start them up for you.
 
-There are a few things you must do to get the app up and running. After that there are a few things you can do to make it better.
+NOTE: Executing the command on the first time always takes a little more time as Vagrant builds the machine from scratch and executes each stage, but will speed up on subsequent times as the machine and the Docker containers only need to start up.
 
-### Mandatory
+3. Verify that the machine and the Docker containers started properly by checking that the console logged `done` on both weatherapp_frontend and weatherapp_backend containers. After this the application should be ready to use within 15 seconds.
 
-* Get yourself an API key to make queries in the [openweathermap](http://openweathermap.org/).
+NOTE: If something failed, try to resolve the issue from the console log and refer to the [Vagrant](https://www.vagrantup.com/) documentation. You may try to debug and run commands in the virtual machine manually by executing the command `vagrant ssh` in the same directory where you executed `vagrant up`.
 
-* Either run the app locally (using `npm i && npm start`) or move to the next step.
+4. Open the address `localhost:8000` in your internet browser of choice.
 
-* Add **Dockerfile**'s in the *frontend* and the *backend* directories to run them virtually on any environment having [docker](https://www.docker.com/) installed. It should work by saying e.g. `docker build -t weatherapp_backend . && docker run --rm -i -p 9000:9000 --name weatherapp_backend -t weatherapp_backend`. If it doesn't, remember to check your api key first.
+### With Docker & Docker-compose
 
-* Add a **docker-compose.yml** -file connecting the frontend and the backend, enabling running the app in a connected set of containers.
+1. Start your Docker service, refer to the [Docker](https://www.docker.com/) documentation.
 
-### Optional (do as many as you like)
+2. Make sure you have [Node](https://nodejs.org/en/) installed on your computer. Execute `npm install` in both `backend/` and `frontend/` directories.
 
-* The application now only reports the current weather. It should probably report the forecast e.g. a few hours from now. (tip: [openweathermap api](https://openweathermap.org/forecast5))
+3. Build your application images by executing command in the `backend/` directory: `docker build -t weatherapp_backend /opt/backend`. Then execute command in the `frontend/` directory `docker build -t weatherapp_frontend /opt/frontend`.
 
-* The developers are still keen to run the app and its pipeline on their own computers. Share the development files for the container by using volumes, and make sure the containers are started with a command enabling hot reload.
+4. Go to the `docker/` directory and execute command `docker-compose up -d`. After this the application should be ready to use within 15 seconds.
 
-* There are [eslint](http://eslint.org/) errors. Sloppy coding it seems. Please help.
+5. Open the address `localhost:8000` in your internet browser of choice.
 
-* The app currently reports the weather only for location defined in the *backend*. Shouldn't it check the browser location and use that as the reference for making a forecast? (tip: [geolocation](https://developer.mozilla.org/en-US/docs/Web/API/Geolocation/Using_geolocation))
+## Running tests
 
-* There are no tests. Where are the tests? (tip: [mocha](https://mochajs.org/) or [robot framework](http://robotframework.org/)) Disclaimer: this is not an easy task. If you really want to try writing robot tests, start by creating a third container that gives expected weather data, and direct the backend queries there by redefining the **MAP_ENDPOINT**.
+This application has been partially covered with unit tests to demonstrate the use [Mocha](https://mochajs.org/) and [Nock](https://github.com/nock/nock). No integration tests were made due to time limitations.
 
-* Set up the weather service in a free cloud hosting service, e.g. [AWS](https://aws.amazon.com/free/) or [Google Cloud](https://cloud.google.com/free/).
+To run the tests, execute the command `npm test` in either `backend/` or `frontend/` directory or find your way to execute the tests in your IDE.
 
-* Write [ansible](http://docs.ansible.com/ansible/intro.html) playbooks for installing [docker](https://www.docker.com/) and the app itself.
+## Running linters
+
+This application should be currently clear of any linter errors.
+
+To run the ESLint, execute the command `npm run lint` in either `backend/` or `frontend/` directory or enable a linter in your IDE.
