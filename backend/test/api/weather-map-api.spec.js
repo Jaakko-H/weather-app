@@ -1,6 +1,6 @@
 // ES5 style imports required by Mocha
 const assert = require('chai').assert;
-const weatherMapApi = require('../src/api/weather-map-api');
+const weatherMapApi = require('../../src/api/weather-map-api');
 const nock = require('nock');
 
 describe('weatherMapApi', function(){

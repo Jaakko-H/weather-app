@@ -1,6 +1,6 @@
 import * as statics from '../utils/statics';
 
-function getLocationQueryParams(latitude, longitude) {
+export function getLocationQueryParams(latitude, longitude) {
   return latitude && longitude ? `?latitude=${latitude}&longitude=${longitude}` : '';
 }
 

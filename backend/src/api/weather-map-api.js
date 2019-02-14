@@ -7,7 +7,6 @@ export const targetCity = process.env.TARGET_CITY || 'Helsinki,fi';
 export const fetchForecast = async (latitude, longitude) => {
   const locationQueryParams = getLocationQueryParams(latitude, longitude);
   const endpoint = `${mapURI}/forecast?appid=${appId}${locationQueryParams}`;
-  console.debug('endpoint: ', endpoint);
   const response = await fetch(endpoint);
 
   return response ? response.json() : {};
