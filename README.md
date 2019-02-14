@@ -42,6 +42,10 @@ NOTE: If something failed, try to resolve the issue from the console log and ref
 
 5. Open the address `localhost:8000` in your internet browser of choice.
 
+## About The Development Environment
+
+Once you have your docker containers up and running, all the files located in your local `backend/` and `frontend/` directories will be fully synced with the containers, meaning that when you make changes to the application source files, the applications running in the containers will reload automatically (Hot reload).
+
 ## Running tests
 
 This application has been partially covered with unit tests to demonstrate the use [Mocha](https://mochajs.org/) and [Nock](https://github.com/nock/nock). No integration tests were made due to time limitations.
