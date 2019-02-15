@@ -34,9 +34,9 @@ NOTE: If something failed, try to resolve the issue from the console log and ref
 
 1. Start your Docker service, refer to the [Docker](https://www.docker.com/) documentation.
 
-2. Make sure you have [Node](https://nodejs.org/en/) installed on your computer. Execute `npm install` in both `backend/` and `frontend/` directories.
+2. Make sure you have [Node](https://nodejs.org/en/) installed on your computer. Execute `npm install` in both `backend/` and `frontend/` directories. This is executed also in case in the Docker image build, but it may lead to errors about missing packages like webpack-dev-server if not first executed on the host machine. TODO: The reason why it happens is currently unknown, find out why it happens.
 
-3. Build your application images by executing command in the `backend/` directory: `docker build -t weatherapp_backend /opt/backend`. Then execute command in the `frontend/` directory `docker build -t weatherapp_frontend /opt/frontend`.
+3. Build your application images by executing command in the `backend/` directory: `docker build -t weatherapp_backend .` (Include the dot at the end of the command). Then execute command in the `frontend/` directory `docker build -t weatherapp_frontend .` (Include the dot at the end of the command).
 
 4. Go to the `docker/` directory and execute command `docker-compose up -d`. After this the application should be ready to use within 15 seconds.
 
