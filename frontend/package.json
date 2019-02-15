@@ -11,7 +11,7 @@
   "scripts": {
     "start": "node_modules/.bin/webpack-dev-server --config webpack.config.js --progress --inline --colors",
     "lint": "node_modules/.bin/eslint --ext .js --ext .jsx . standard --env mocha test/**/js",
-    "test": "./node_modules/.bin/mocha --require babel-core/register --require babel-polyfill --require isomorphic-fetch --recursive --watch"
+    "test": "node_modules/.bin/mocha --require babel-core/register --require babel-polyfill --require isomorphic-fetch --recursive --watch"
   },
   "dependencies": {
     "chai": "^4.2.0",
