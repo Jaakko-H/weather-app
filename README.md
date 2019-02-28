@@ -2,7 +2,7 @@
 
 This is a simple web application which reports the current weather and forecasts the upcoming weather in the user's location (or Helsinki if the user does not allow the use of location data) within a few hours from the current time, based on the [OpenWeatherMap](https://openweathermap.org/).
 
-This was an exercise to practise the use of ReactJS, NodeJS, Docker & Docker-compose and Vagrant and some other technologies. It uses ReactJS on the front end and NodeJS on the back end. The app can be run with either Docker & Docker-compose on your own machine or with Vagrant which builds a virtual machine and installs everything for you automatically.
+This was an exercise to practise and demonstrate the use of ReactJS, NodeJS, Docker & Docker-compose, Vagrant and some other technologies. It uses ReactJS on the front end and NodeJS on the back end. The app can be run with either Docker & Docker-compose on your own machine or with Vagrant which builds a virtual machine and installs everything for you automatically.
 
 ## Prerequisites
 
